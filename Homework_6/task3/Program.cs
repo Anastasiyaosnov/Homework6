@@ -43,11 +43,11 @@ int MaxValueRaws(int[,] matrix)
     for (int i = 0; i < matrix.GetLength(0); i++)
     {
         max = matrix[i, 0];
-        for (int j = 0; j < matrix.GetLength(1)-1; j++)
+        for (int j = 0; j < matrix.GetLength(1); j++)
         {
-            if (max <= matrix[i,j+1])
+            if (max <= matrix[i,j])
             {
-                max = matrix[i,j+1];
+                max = matrix[i,j];
             }
         
         }
@@ -56,22 +56,22 @@ int MaxValueRaws(int[,] matrix)
     return sum;
 }
 
-int MaxValueColumns(int[,] matrix)
+int MinValueColumns(int[,] matrix)
 {
     int sum = 0;
-    int max = matrix[0, 0];
-    for (int i = 0; i < matrix.GetLength(0); i++)
+    int min = matrix[0, 0];
+    for (int i = 0; i < matrix.GetLength(1); i++)
     {
-        for (int j = 0; j < matrix.GetLength(1)-1; j++)
+        min = matrix[0, i];
+        for (int j = 0; j < matrix.GetLength(0); j++)
         {
-            max = matrix[0,j];
-            if (max <= matrix[i+1,j])
+            if (min >= matrix[j,i])
             {
-                max = matrix[i+1,j];
+                min = matrix[j,i];
             }
         
         }
-        sum += max;
+        sum += min;
     }
     return sum;
 }
@@ -86,8 +86,11 @@ int[,] UserMatrix = new int [rows, columns];
 FillMatrix(UserMatrix, UserMin, UserMax);
 PrintMatrix(UserMatrix);
 
-int UserMaxRaws = MaxValueRaws(UserMatrix);
-Console.WriteLine(UserMaxRaws);
+int UserMaxRows = MaxValueRaws(UserMatrix);
+Console.WriteLine(UserMaxRows);
 
-int UserMaxColumns = MaxValueColumns(UserMatrix);
-Console.WriteLine(UserMaxColumns);
+int UserMinColumns = MinValueColumns(UserMatrix);
+Console.WriteLine(UserMinColumns);
+
+int Total = UserMaxRows - UserMinColumns;
+Console.WriteLine($"{UserMaxRows} - {UserMinColumns} = {Total}");
